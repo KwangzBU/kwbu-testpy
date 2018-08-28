@@ -1,5 +1,9 @@
-import sys
+from flask import Flask
+app = Flask(__name__)
 
-if __name__ == '__main__':
-    print("THIS IS TESTING")
-    sys.stdout.flush()
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run()
