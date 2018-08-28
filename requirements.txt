@@ -1,2 +1,10 @@
 gunicorn
 Flask
+Jinja2
+MarkupSafe
+Werkzeug
+argparse
+click
+itsdangerous
+requests
+wsgiref
