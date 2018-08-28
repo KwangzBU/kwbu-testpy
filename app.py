@@ -14,11 +14,11 @@ def do_test():
 @app.route('/',methods=['GET'])
 def verification_handle():
      verify_token = request.args.get('hub.verify_token','')
-     print verify_token
+     print(verify_token)
      challenge = request.args.get('hub.challenge', '') 
-     if verify_token == access_token :
+     if verify_token == access_token:
          return challenge
-     else :
+     else:
          return "Wrong validation"
 
 
