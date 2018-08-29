@@ -25,15 +25,9 @@ def verification_handle():
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
     try:
+        print("TRY")
         data = request.get_json()
-        jsonData = json.dumps({
-                        "recipient": {
-                            "id": recipient_id
-                        },
-                        "message": {
-                            "text": message_text
-                        }
-                    })
+        
         
         return "work"
     except:
