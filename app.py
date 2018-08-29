@@ -25,9 +25,8 @@ def verification_handle():
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
     try:
-        print("TRY")
         data = request.get_json()
-        
+        jsonData = json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}])
         
         return "work"
     except:
