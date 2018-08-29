@@ -24,7 +24,12 @@ def verification_handle():
     
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
-    return "WTF"
+    try:
+        data = request.get_json()
+        return "work"
+    except:
+        return "Failed"
+    
     '''
     #get data from request
     payload = request.get_data()
