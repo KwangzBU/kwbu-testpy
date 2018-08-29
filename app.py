@@ -35,7 +35,7 @@ def incoming_message_handle():
                         }
                     })
         
-        return jsonData
+        return "work"
     except:
         return "Failed"
     
