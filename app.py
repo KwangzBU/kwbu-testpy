@@ -26,9 +26,9 @@ def verification_handle():
 def incoming_message_handle():
     try:
         data = request.get_json()
-        jsonData = json.loads(data)
+#        jsonData = json.loads(data)
         
-        return "work"
+        return "work ", data
     except:
         return "Failed"
     
