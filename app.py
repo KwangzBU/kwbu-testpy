@@ -25,10 +25,21 @@ def verification_handle():
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
     try:
-        data = request.get_data()
-#        jsonData = json.loads(data)
-        
-        return "work ", data
+        jsonData = request.get_json()
+        entry = jsonData['entry']
+        messaging = entry[0]["messaging"]
+        for item in messaging :
+            if "message" in item and "text" in item["message"] :
+                #extract sender from messaging
+                sender = item["sender"]
+
+                #extract incoming message from messaging
+                msg = item["message"]
+
+                #echo back to sender
+                echo_to_sender(sender["id"], msg["text"])
+
+        return json.dumps({'success':True}),200,{'Content-Type':'application/json'}
     except:
         return "Failed"
     
@@ -67,7 +78,9 @@ def incoming_message_handle():
     '''
 
 
-def echo_to_sender(sender_id,msg_txt):
+def echo_to_sender(sender_id, msg_txt):
+    print("sender ", sender_id)
+    print("msg_txt ", msg_txt)
     # get this from Facebook manual
     req = requests.post(
          "https://graph.facebook.com/v2.6/me/messages",
