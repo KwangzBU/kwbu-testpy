@@ -25,7 +25,7 @@ def verification_handle():
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
     try:
-        data = request.get_json()
+        data = request.get_data()
 #        jsonData = json.loads(data)
         
         return "work ", data
