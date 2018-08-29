@@ -13,15 +13,15 @@ def do_test():
 
 @app.route('/',methods=['GET'])
 def verification_handle():
-     verify_token = request.args.get('hub.verify_token','')
-     print(verify_token)
-     challenge = request.args.get('hub.challenge', '') 
-     if verify_token == access_token:
-         return challenge
-     else:
-         return "Wrong validation"
+    verify_token = request.args.get('hub.verify_token','')
+    print(verify_token)
+    challenge = request.args.get('hub.challenge', '') 
+    if verify_token == access_token:
+        return challenge
+    else:
+        return "Wrong validation"
 
-
+'''
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
     #get data from request
@@ -62,3 +62,4 @@ def echo_to_sender(sender_id,msg_txt):
             "message": msg_txt
           }),
          headers = {'Content-Type':'application/json'})
+'''
