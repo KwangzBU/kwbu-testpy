@@ -24,10 +24,13 @@ def verification_handle():
     
 @app.route('/',methods=['POST'])
 def incoming_message_handle():
+    data = request.get_json()
+    print(data)
+    '''
     #get data from request
     payload = request.get_data()
     print("payload ", payload)
-    '''
+    
     #turn payload to json
     json_data = json.loads(payload)
 
