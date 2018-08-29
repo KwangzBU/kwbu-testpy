@@ -26,24 +26,29 @@ def verification_handle():
 def incoming_message_handle():
     #get data from request
     payload = request.get_data()
+    print("payload ", payload)
 
     #turn payload to json
     json_data = json.loads(payload)
 
     #extract entry, entry is an array
     entry = json_data['entry']
+    print("entry ", entry)
 
     #extract messaging from entry, messaging is an array
     messaging = entry[0]["messaging"]
+    print("messaging", messaging)
 
     for item in messaging :
+        print ("item ", item)
         if "message" in item and "text" in item["message"] :
-
             #extract sender from messaging
             sender = item["sender"]
+            print("sender ", sender)
 
             #extract incoming message from messaging
             msg = item["message"]
+            print("msg ", msg)
 
             #echo back to sender
             echo_to_sender(sender["id"],msg["text"].encode('unicode_escape'))
