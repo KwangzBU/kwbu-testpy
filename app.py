@@ -27,7 +27,7 @@ def incoming_message_handle():
     #get data from request
     payload = request.get_data()
     print("payload ", payload)
-
+    '''
     #turn payload to json
     json_data = json.loads(payload)
 
@@ -55,6 +55,7 @@ def incoming_message_handle():
 
     #tell Facebook that every is alright
     return json.dumps({'success':True}),200,{'Content-Type':'application/json'}
+    '''
 
 
 def echo_to_sender(sender_id,msg_txt):
