@@ -26,7 +26,7 @@ def verification_handle():
 def incoming_message_handle():
     try:
         data = request.get_json()
-        jsonData = json.dumps(['foo', {'bar': ('baz', None, 1.0, 2)}])
+        jsonData = json.loads(data)
         
         return "work"
     except:
