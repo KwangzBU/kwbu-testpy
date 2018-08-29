@@ -31,13 +31,14 @@ def incoming_message_handle():
         for item in messaging :
             if "message" in item and "text" in item["message"] :
                 #extract sender from messaging
+                recipient = item["recipient"]
                 sender = item["sender"]
 
                 #extract incoming message from messaging
                 msg = item["message"]
 
                 #echo back to sender
-                echo_to_sender(sender["id"], msg["text"])
+                echo_to_sender(recipient["id"], sender["id"], msg["text"])
 
         return json.dumps({'success':True}),200,{'Content-Type':'application/json'}
     except:
@@ -78,7 +79,8 @@ def incoming_message_handle():
     '''
 
 
-def echo_to_sender(sender_id, msg_txt):
+def echo_to_sender(recipient_id, sender_id, msg_txt):
+    print("recipient ", recipient_id)
     print("sender ", sender_id)
     print("msg_txt ", msg_txt)
     # get this from Facebook manual
@@ -86,8 +88,8 @@ def echo_to_sender(sender_id, msg_txt):
          "https://graph.facebook.com/v2.6/me/messages",
          params = {"access_token":access_token},
          data = json.dumps({
-            "recipient":sender_id,
-            "message": msg_txt
+            "recipient":{"id":sender_id},
+            "message": {"text":msg_txt}
           }),
          headers = {'Content-Type':'application/json'})
     
