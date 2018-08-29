@@ -26,7 +26,16 @@ def verification_handle():
 def incoming_message_handle():
     try:
         data = request.get_json()
-        return "work"
+        jsonData = json.dumps({
+                        "recipient": {
+                            "id": recipient_id
+                        },
+                        "message": {
+                            "text": message_text
+                        }
+                    })
+        
+        return jsonData
     except:
         return "Failed"
     
