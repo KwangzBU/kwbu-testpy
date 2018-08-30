@@ -99,6 +99,12 @@ def WordResponse(message):
             responseText = "ม.กรุงเทพค่ะ"
         elif IsContain("โปรแกรมเมอร์หน้าตาดี", message):
             responseText = "ใช่ค่ะ โปรแกรมเมอร์ของเราหน้าตาดีมากกกก\nก.ไก่ล้านตัว"
+        elif IsContain("สุดๆ", message):
+            responseText = "สุดๆ ไปเลยค่าาาา"
+        elif IsContain("ไปหา", message):
+            responseText = "มาเรียนม.กรุงเทพสิคะ"
+        elif IsContain("กวน", message):
+            responseText = "ไม่ได้กวนนะคะ"
    
     return responseText
 
