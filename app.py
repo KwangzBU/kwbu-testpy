@@ -1,6 +1,7 @@
 from flask import Flask,request
 import json
 import requests
+from langdetect import detect
 
 app = Flask(__name__)
 
@@ -63,23 +64,42 @@ def echo_to_sender(recipient_id, sender_id, msg_txt):
 def WordResponse(message):
     print("response for ", message.encode("utf-8"))
     responseText = "ฉันไม่เข้าใจประโยคนี้"
-    if IsContain("สวัสดี", message):
-        responseText = "สวัสดีค่ะ"
-    elif IsContain("ดีจ้า", message):
-        responseText = "ดีจร้า"
-    elif IsContain("ทำไร", message):
-        responseText = "ตอบแช็ทอยู่ค่ะ"
-    elif IsContain("ทำอะไร", message):
-        responseText = "ตอบแช็ทอยู่ค่ะ"
-    elif IsContain("ชื่ออะไร", message):
-        responseText = "ตอนนี้โปรแกรมเมอร์ยังไม่ได้ตั้งชื่อให้ค่ะ"
-    elif IsContain("อยากรู้จัก", message):
-        responseText = "ยินดีได้รู้จักค่ะ"
-    elif IsContain(" Hi ", message):
-        responseText = "Sawasdee Ka"
-    elif IsContain(" Hello ", message):
-        responseText = "Sawasdee Ka"
     
+    lang = detect(message)
+    print ("DETECTED LANGUAGE", lang.strip())
+    if (not IsContain("th", lang)):
+        message = message.lower()
+        words = message.split(" ")
+        
+        if "hi" in words:
+            responseText = "Sawasdee Ka"
+        elif "hello" in words:
+            responseText = "Sawasdee Ka"
+        elif "sawasdee" in words:
+            responseText = "Sawasdee Ka"
+        else:
+            responseText = "Sorry. Could you speak Thai?"
+    else:
+        print ("THAI")
+        if IsContain("สวัสดี", message):
+            responseText = "สวัสดีค่ะ"
+        elif IsContain("ดีจ้า", message):
+            responseText = "ดีจร้า"
+        elif IsContain("ทำไร", message):
+            responseText = "ตอบแช็ทอยู่ค่ะ"
+        elif IsContain("ทำอะไร", message):
+            responseText = "ตอบแช็ทอยู่ค่ะ"
+        elif IsContain("ชื่ออะไร", message):
+            responseText = "ตอนนี้โปรแกรมเมอร์ยังไม่ได้ตั้งชื่อให้ค่ะ"
+        elif IsContain("อยากรู้จัก", message):
+            responseText = "ยินดีได้รู้จักค่ะ"
+        elif IsContain("อยู่ไหน", message):
+            responseText = "ม.กรุงเทพค่ะ"
+        elif IsContain("อยู่ที่ไหน", message):
+            responseText = "ม.กรุงเทพค่ะ"
+        elif IsContain("โปรแกรมเมอร์หน้าตาดี", message):
+            responseText = "ใช่ค่ะ โปรแกรมเมอร์ของเราหน้าตาดีมากกกก\nก.ไก่ล้านตัว"
+   
     return responseText
 
 def IsContain(word, message):
