@@ -29,61 +29,27 @@ def incoming_message_handle():
         entry = jsonData['entry']
         messaging = entry[0]["messaging"]
         for item in messaging :
-            if "message" in item and "text" in item["message"] :
+            if "message" in item and "text" in item["message"]:
                 #extract sender from messaging
                 recipient = item["recipient"]
                 sender = item["sender"]
 
                 #extract incoming message from messaging
                 msg = item["message"]
+#                encodeMsg = msg["text"].encode("utf-8")
+                responseMsg = WordResponse(msg["text"])
 
                 #echo back to sender
-                echo_to_sender(recipient["id"], sender["id"], msg["text"])
+                echo_to_sender(recipient["id"], sender["id"], responseMsg)
 
         return json.dumps({'success':True}),200,{'Content-Type':'application/json'}
     except:
         return "Failed"
-    
-    '''
-    #get data from request
-    payload = request.get_data()
-    print("payload ", payload)
-    
-    #turn payload to json
-    json_data = json.loads(payload)
-
-    #extract entry, entry is an array
-    entry = json_data['entry']
-    print("entry ", entry)
-
-    #extract messaging from entry, messaging is an array
-    messaging = entry[0]["messaging"]
-    print("messaging", messaging)
-
-    for item in messaging :
-        print ("item ", item)
-        if "message" in item and "text" in item["message"] :
-            #extract sender from messaging
-            sender = item["sender"]
-            print("sender ", sender)
-
-            #extract incoming message from messaging
-            msg = item["message"]
-            print("msg ", msg)
-
-            #echo back to sender
-            echo_to_sender(sender["id"],msg["text"].encode('unicode_escape'))
-
-    #tell Facebook that every is alright
-    return json.dumps({'success':True}),200,{'Content-Type':'application/json'}
-    '''
-
 
 def echo_to_sender(recipient_id, sender_id, msg_txt):
     print("recipient ", recipient_id)
     print("sender ", sender_id)
-    print("msg_txt ", msg_txt)
-    # get this from Facebook manual
+    print("msg_txt ", msg_txt.encode("utf-8"))
     req = requests.post(
          "https://graph.facebook.com/v2.6/me/messages",
          params = {"access_token":access_token},
@@ -91,47 +57,34 @@ def echo_to_sender(recipient_id, sender_id, msg_txt):
             "recipient":{"id":sender_id},
             "message": {"text":msg_txt}
           }),
-         headers = {'Content-Type':'application/json'})
+         headers = {'Content-Type':'application/json; charset=utf-8'})
+    print("Message was sent")
+
+def WordResponse(message):
+    print("response for ", message.encode("utf-8"))
+    responseText = "ฉันไม่เข้าใจประโยคนี้"
+    if IsContain("สวัสดี", message):
+        responseText = "สวัสดีค่ะ"
+    elif IsContain("ดีจ้า", message):
+        responseText = "ดีจร้า"
+    elif IsContain("ทำไร", message):
+        responseText = "ตอบแช็ทอยู่ค่ะ"
+    elif IsContain("ทำอะไร", message):
+        responseText = "ตอบแช็ทอยู่ค่ะ"
+    elif IsContain("ชื่ออะไร", message):
+        responseText = "ตอนนี้โปรแกรมเมอร์ยังไม่ได้ตั้งชื่อให้ค่ะ"
+    elif IsContain("อยากรู้จัก", message):
+        responseText = "ยินดีได้รู้จักค่ะ"
+    elif IsContain(" Hi ", message):
+        responseText = "Sawasdee Ka"
+    elif IsContain(" Hello ", message):
+        responseText = "Sawasdee Ka"
     
-'''
-@app.route('/',methods=['POST'])
-def incoming_message_handle():
-    #get data from request
-    payload = request.get_data()
-    
-    #turn payload to json
-    json_data = json.loads(payload)
+    return responseText
 
-    #extract entry, entry is an array
-    entry = json_data['entry']
+def IsContain(word, message):
+    if word.encode("utf-8") in message.encode("utf-8"):
+        return True
+    else:
+        return False
 
-    #extract messaging from entry, messaging is an array
-    messaging = entry[0]["messaging"]
-
-    for item in messaging :
-      if "message" in item and "text" in item["message"] :
-
-        #extract sender from messaging
-        sender = item["sender"]
-
-        #extract incoming message from messaging
-        msg = item["message"]
-
-        #echo back to sender
-        echo_to_sender(sender["id"],msg["text"].encode('unicode_escape'))
-
-    #tell Facebook that every is alright
-    return json.dumps({'success':True}),200,{'Content-Type':'application/json'}
-
-
-def echo_to_sender(sender_id,msg_txt):
-    # get this from Facebook manual
-    req = requests.post(
-         "https://graph.facebook.com/v2.6/me/messages",
-         params = {"access_token":access_token},
-         data = json.dumps({
-            "recipient":sender_id,
-            "message": msg_txt
-          }),
-         headers = {'Content-Type':'application/json'})
-'''
